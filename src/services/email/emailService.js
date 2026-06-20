@@ -6,7 +6,7 @@ const logger = require('../../utils/logger');
 const { EMAIL_PROVIDERS } = require('../../config/constants');
 
 const providers = {
-  [EMAIL_PROVIDERS.GMAIL_SMTP]: nodemailerProvider,
+  [EMAIL_PROVIDERS.HOSTINGER_SMTP]: nodemailerProvider,
   [EMAIL_PROVIDERS.RESEND]: resendProvider,
   [EMAIL_PROVIDERS.BREVO]: brevoProvider,
 };

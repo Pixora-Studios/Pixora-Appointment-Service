@@ -319,7 +319,7 @@
 									"variable": [
 										{
 											"key": "providerName",
-											"value": "gmail-smtp"
+											"value": "hostinger-smtp"
 										}
 									]
 								}

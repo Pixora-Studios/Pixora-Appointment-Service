@@ -18,7 +18,7 @@ const appointmentSchema = new mongoose.Schema({
   },
   patientEmail: {
     type: String,
-    match: [/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/, 'Please fill a valid email address'],
+    match: [/^[^\s@]+@[^\s@]+\.[^\s@]+$/, 'Please fill a valid email address'],
   },
   preferredDate: {
     type: Date,

@@ -1,17 +1,21 @@
 const nodemailer = require('nodemailer');
 const { generateAppointmentEmail } = require('../templates/appointmentNotification');
 
+/**
+ * Hostinger/Titan Mail SMTP Provider
+ * Configuration values are read from environment variables.
+ */
 const sendAppointmentEmail = async (data) => {
   const { to } = data;
   const { subject, html, text } = generateAppointmentEmail(data);
 
   const transporter = nodemailer.createTransport({
-    host: process.env.GMAIL_SMTP_HOST,
-    port: process.env.GMAIL_SMTP_PORT,
-    secure: false, // true for 465, false for other ports
+    host: process.env.HOSTINGER_SMTP_HOST,
+    port: parseInt(process.env.HOSTINGER_SMTP_PORT) || 465,
+    secure: process.env.HOSTINGER_SMTP_SECURE === 'true', // true for 465, false for 587
     auth: {
-      user: process.env.GMAIL_SMTP_USER,
-      pass: process.env.GMAIL_SMTP_PASS,
+      user: process.env.HOSTINGER_SMTP_USER,
+      pass: process.env.HOSTINGER_SMTP_PASS,
     },
   });
 
@@ -25,7 +29,7 @@ const sendAppointmentEmail = async (data) => {
     });
     return { success: true };
   } catch (error) {
-    throw new Error(`Nodemailer Error: ${error.message}`);
+    throw new Error(`Hostinger SMTP Error: ${error.message}`);
   }
 };
 

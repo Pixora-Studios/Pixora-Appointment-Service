@@ -1,6 +1,6 @@
 module.exports = {
   EMAIL_PROVIDERS: {
-    GMAIL_SMTP: 'gmail-smtp',
+    HOSTINGER_SMTP: 'hostinger-smtp',
     BREVO: 'brevo',
     RESEND: 'resend',
   },

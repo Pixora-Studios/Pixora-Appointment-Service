@@ -6,7 +6,7 @@ A centralized appointment notification service for multiple dental clinics under
 This service acts as a middleman between clinic websites and clinic staff. When an appointment is booked on a clinic's website, the website calls this service's API. The service then:
 1. Stores the appointment details in MongoDB.
 2. Sends an email notification to the clinic's registered email address.
-3. Utilizes a multi-provider fallback system (Brevo, Resend, Gmail SMTP) to ensure high delivery rates.
+3. Utilizes a multi-provider fallback system (Brevo, Resend, Hostinger SMTP) to ensure high delivery rates.
 
 ## Setup
 
@@ -48,10 +48,10 @@ One per clinic, used for booking appointments.
 ### Provider Configuration
 - **Brevo:** Obtain API key from [app.brevo.com](https://app.brevo.com) under Settings > SMTP & API > API Keys.
 - **Resend:** Obtain API key from [resend.com/api-keys](https://resend.com/api-keys).
-- **Gmail SMTP:** Use a Gmail address and an [App Password](https://myaccount.google.com/apppasswords).
+- **Hostinger/Titan Mail:** Log into hPanel > Emails > select your mailbox > Manage > Configuration Settings > Manual Configuration to find your exact SMTP host, port, and SSL setting. Use your mailbox's regular login password — there is no separate app password for Hostinger mail.
 
 ### Fallback & Priority System
-Providers are tried in order of their `priority` (lower number first). If a provider fails (auth error, rate limit) or reaches its `dailyLimit`, the service automatically attempts the next active provider in the chain.
+Providers are tried in order of their `priority` (lower number first). If a provider fails (auth error, rate limit) or reaches its `dailyLimit`, the service automatically attempts the next active provider in the chain. (Brevo, Resend, and Hostinger/Titan Mail are configured by default).
 
 ### Provider Operations
 - **Check Status:** `GET /api/admin/providers`

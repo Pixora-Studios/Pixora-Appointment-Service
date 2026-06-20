@@ -27,10 +27,10 @@ const seedProviders = async () => {
         dailyLimit: 100,
       },
       {
-        providerName: EMAIL_PROVIDERS.GMAIL_SMTP,
+        providerName: EMAIL_PROVIDERS.HOSTINGER_SMTP,
         isActive: true,
         priority: 3,
-        dailyLimit: 500, // Just a placeholder
+        dailyLimit: 100, // Hostinger free email limit
       },
     ];
 
