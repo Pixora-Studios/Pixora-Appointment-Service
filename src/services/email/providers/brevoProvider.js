@@ -1,4 +1,4 @@
-const Brevo = require('@getbrevo/brevo');
+const { BrevoClient } = require('@getbrevo/brevo');
 const { generateAppointmentEmail } = require('../templates/appointmentNotification');
 
 const sendAppointmentEmail = async (data) => {
@@ -9,24 +9,22 @@ const sendAppointmentEmail = async (data) => {
     throw new Error('Brevo API key is missing');
   }
 
-  const defaultClient = Brevo.ApiClient.instance;
-  const apiKey = defaultClient.authentications['api-key'];
-  apiKey.apiKey = process.env.BREVO_API_KEY;
-
-  const apiInstance = new Brevo.TransactionalEmailsApi();
-  const sendSmtpEmail = new Brevo.SendSmtpEmail();
-
-  sendSmtpEmail.subject = subject;
-  sendSmtpEmail.htmlContent = html;
-  sendSmtpEmail.textContent = text;
-  sendSmtpEmail.sender = { name: process.env.FROM_NAME, email: process.env.FROM_EMAIL };
-  sendSmtpEmail.to = [{ email: to }];
+  const brevo = new BrevoClient({
+    apiKey: process.env.BREVO_API_KEY,
+  });
 
   try {
-    await apiInstance.sendTransacEmail(sendSmtpEmail);
+    await brevo.transactionalEmails.sendTransacEmail({
+      subject,
+      htmlContent: html,
+      textContent: text,
+      sender: { name: process.env.FROM_NAME, email: process.env.FROM_EMAIL },
+      to: [{ email: to }],
+    });
+
     return { success: true };
   } catch (error) {
-    const errorMsg = error.response?.body?.message || error.message;
+    const errorMsg = error?.body?.message || error?.message || 'Unknown Brevo error';
     throw new Error(`Brevo Error: ${errorMsg}`);
   }
 };
