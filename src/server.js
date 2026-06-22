@@ -7,9 +7,6 @@ const { EMAIL_PROVIDERS } = require('./config/constants');
 
 const PORT = process.env.PORT || 5000;
 
-// Connect to Database
-connectDB();
-
 // Seed Email Providers
 const seedProviders = async () => {
   try {
@@ -41,19 +38,37 @@ const seedProviders = async () => {
         { upsert: true, new: true }
       );
     }
+
     logger.info('Email providers seeded/verified');
   } catch (error) {
     logger.error(`Seeding error: ${error.message}`);
+    throw error;
   }
 };
 
-seedProviders();
+let server;
 
-const server = app.listen(PORT, () => {
-  logger.info(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`);
-});
+const startServer = async () => {
+  try {
+    await connectDB();
+    await seedProviders();
 
-process.on('unhandledRejection', (err, promise) => {
-  logger.error(`Error: ${err.message}`);
-  server.close(() => process.exit(1));
+    server = app.listen(PORT, () => {
+      logger.info(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`);
+    });
+  } catch (error) {
+    logger.error(`Failed to start server: ${error.message}`);
+    process.exit(1);
+  }
+};
+
+startServer();
+
+process.on('unhandledRejection', (err) => {
+  logger.error(`Unhandled rejection: ${err.message}`);
+  if (server) {
+    server.close(() => process.exit(1));
+  } else {
+    process.exit(1);
+  }
 });
