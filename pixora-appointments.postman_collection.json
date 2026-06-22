@@ -1,0 +1,513 @@
+{
+	"info": {
+		"_postman_id": "7d9b9c9a-5e4a-4e4a-9e9e-9e9e9e9e9e9e",
+		"name": "Pixora Appointment Service",
+		"description": "API for managing dental clinic appointments and email providers.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Admin",
+			"item": [
+				{
+					"name": "Clinics",
+					"item": [
+						{
+							"name": "Create Clinic",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-admin-key",
+										"value": "{{admin_key}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"clinicName\": \"Pixora Dental - Downtown\",\n  \"doctorName\": \"Dr. Smith\",\n  \"clinicEmail\": \"downtown@example.com\",\n  \"phone\": \"123-456-7890\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/admin/clinics",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"admin",
+										"clinics"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "List Clinics",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-admin-key",
+										"value": "{{admin_key}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/admin/clinics",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"admin",
+										"clinics"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Regenerate Key",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "x-admin-key",
+										"value": "{{admin_key}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/admin/clinics/:id/regenerate-key",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"admin",
+										"clinics",
+										":id",
+										"regenerate-key"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Disable Clinic",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "x-admin-key",
+										"value": "{{admin_key}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/admin/clinics/:id/disable",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"admin",
+										"clinics",
+										":id",
+										"disable"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Enable Clinic",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "x-admin-key",
+										"value": "{{admin_key}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/admin/clinics/:id/enable",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"admin",
+										"clinics",
+										":id",
+										"enable"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Providers",
+					"item": [
+						{
+							"name": "List Providers",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-admin-key",
+										"value": "{{admin_key}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/admin/providers",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"admin",
+										"providers"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Toggle Provider",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "x-admin-key",
+										"value": "{{admin_key}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"isActive\": false\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/admin/providers/:providerName/toggle",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"admin",
+										"providers",
+										":providerName",
+										"toggle"
+									],
+									"variable": [
+										{
+											"key": "providerName",
+											"value": "brevo"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Change Priority",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "x-admin-key",
+										"value": "{{admin_key}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"priority\": 1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/admin/providers/:providerName/priority",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"admin",
+										"providers",
+										":providerName",
+										"priority"
+									],
+									"variable": [
+										{
+											"key": "providerName",
+											"value": "resend"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Test Provider",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-admin-key",
+										"value": "{{admin_key}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"testRecipientEmail\": \"hello@pixorastudios.com\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/admin/providers/:providerName/test",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"admin",
+										"providers",
+										":providerName",
+										"test"
+									],
+									"variable": [
+										{
+											"key": "providerName",
+											"value": "hostinger-smtp"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Reset Counters",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-admin-key",
+										"value": "{{admin_key}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/admin/providers/reset-counters",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"admin",
+										"providers",
+										"reset-counters"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "List Appointments",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-admin-key",
+								"value": "{{admin_key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/admin/appointments?status=pending&emailSent=true",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"appointments"
+							],
+							"query": [
+								{
+									"key": "status",
+									"value": "pending"
+								},
+								{
+									"key": "emailSent",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Clinic",
+			"item": [
+				{
+					"name": "Book Appointment (Success)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{clinic_api_key}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"patientName\": \"Debidutta\",\n  \"patientPhone\": \"9999999999\",\n  \"patientEmail\": \"abc@gmail.com\",\n  \"preferredDate\": \"2026-07-20\",\n  \"preferredTime\": \"11:00 AM\",\n  \"treatmentRequired\": \"Dental Fillings\",\n  \"additionalNotes\": \"Tooth pain on left side\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/appointments",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"appointments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Book Appointment (Invalid Key)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer pix_live_invalid_key",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"patientName\": \"Debidutta\",\n  \"patientPhone\": \"9999999999\",\n  \"patientEmail\": \"abc@gmail.com\",\n  \"preferredDate\": \"2026-07-20\",\n  \"preferredTime\": \"11:00 AM\",\n  \"treatmentRequired\": \"Dental Fillings\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/appointments",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"appointments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Book Appointment (Validation Error)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{clinic_api_key}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"patientName\": \"\",\n  \"patientPhone\": \"9999999999\",\n  \"preferredDate\": \"invalid-date\",\n  \"preferredTime\": \"11:00 AM\",\n  \"treatmentRequired\": \"Dental Fillings\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/appointments",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"appointments"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:5000"
+		},
+		{
+			"key": "admin_key",
+			"value": "replace-with-long-random-string"
+		},
+		{
+			"key": "clinic_api_key",
+			"value": ""
+		}
+	]
+}
