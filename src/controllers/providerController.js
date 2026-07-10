@@ -1,5 +1,5 @@
 const EmailProvider = require('../models/EmailProvider');
-const emailService = require('../services/email/emailService');
+const emailService = require('../email/emailService');
 
 exports.getProviders = async (req, res, next) => {
   try {

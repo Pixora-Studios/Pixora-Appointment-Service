@@ -5,7 +5,8 @@
   "main": "src/server.js",
   "scripts": {
     "start": "node src/server.js",
-    "dev": "node src/server.js"
+    "dev": "node src/server.js",
+    "test": "jest --runInBand --detectOpenHandles --forceExit"
   },
   "dependencies": {
     "@getbrevo/brevo": "^5.0.4",

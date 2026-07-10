@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const { APPOINTMENT_STATUS } = require('../config/constants');
+const { APPOINTMENT_STATUS } = require('../../config/constants');
 
 const appointmentSchema = new mongoose.Schema({
   clinicId: {

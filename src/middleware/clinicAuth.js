@@ -1,5 +1,5 @@
 const Clinic = require('../models/Clinic');
-const { hashKey } = require('../services/apiKeyService');
+const { hashKey } = require('../utils/apiKeyService');
 
 const clinicAuth = async (req, res, next) => {
   const authHeader = req.headers.authorization;

@@ -2,16 +2,17 @@ const express = require('express');
 const helmet = require('helmet');
 const cors = require('cors');
 const morgan = require('morgan');
-const { body } = require('express-validator');
 
 const adminAuth = require('./middleware/adminAuth');
-const clinicAuth = require('./middleware/clinicAuth');
-const { adminRateLimiter, appointmentRateLimiter } = require('./middleware/rateLimiter');
+const { adminRateLimiter } = require('./middleware/rateLimiter');
 const errorHandler = require('./middleware/errorHandler');
 
 const clinicController = require('./controllers/clinicController');
 const providerController = require('./controllers/providerController');
-const appointmentController = require('./controllers/appointmentController');
+const tableBookingController = require('./table-booking/controller/tableBookingController');
+
+const appointmentRoutes = require('./appointment/routes/appointmentRoutes');
+const tableBookingRoutes = require('./table-booking/routes/tableBookingRoutes');
 
 const app = express();
 
@@ -49,6 +50,7 @@ adminRouter.patch('/clinics/:id/regenerate-key', clinicController.regenerateKey)
 adminRouter.patch('/clinics/:id/disable', clinicController.disableClinic);
 adminRouter.patch('/clinics/:id/enable', clinicController.enableClinic);
 adminRouter.get('/appointments', clinicController.getAdminAppointments);
+adminRouter.get('/table-bookings', tableBookingController.getAdminTableBookings);
 
 adminRouter.get('/providers', providerController.getProviders);
 adminRouter.patch('/providers/:providerName/toggle', providerController.toggleProvider);
@@ -58,21 +60,9 @@ adminRouter.post('/providers/reset-counters', providerController.resetCounters);
 
 app.use('/api/admin', adminRouter);
 
-// Clinic-facing Routes
-app.post(
-  '/api/appointments',
-  appointmentRateLimiter,
-  clinicAuth,
-  [
-    body('patientName').notEmpty().withMessage('Patient name is required'),
-    body('patientPhone').notEmpty().withMessage('Patient phone is required'),
-    body('patientEmail').optional().isEmail().withMessage('Valid email is required if provided'),
-    body('preferredDate').isISO8601().withMessage('Valid preferred date is required (ISO8601)'),
-    body('preferredTime').notEmpty().withMessage('Preferred time is required'),
-    body('treatmentRequired').notEmpty().withMessage('Treatment required is required'),
-  ],
-  appointmentController.createAppointment
-);
+// Clinic-facing modular Routes
+app.use('/api/appointments', appointmentRoutes);
+app.use('/api/table-bookings', tableBookingRoutes);
 
 // Health Check
 app.get('/health', (req, res) => res.json({ status: 'UP' }));

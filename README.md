@@ -59,9 +59,9 @@ Providers are tried in order of their `priority` (lower number first). If a prov
 - **Change Priority:** `PATCH /api/admin/providers/:providerName/priority`
 - **Test Provider:** `POST /api/admin/providers/:providerName/test`
 
-## Integrating a Clinic Website
+## Integrating a Clinic Website / Booking System
 
-### Endpoint: `POST /api/appointments`
+### Endpoint: `POST /api/appointments` (Appointments)
 
 **Headers:**
 ```
@@ -92,6 +92,50 @@ Content-Type: application/json
 }
 ```
 
+### Endpoint: `POST /api/table-bookings` (Restaurant Reservations)
+
+**Headers:**
+```
+Authorization: Bearer pix_live_...
+Content-Type: application/json
+```
+
+**Body:**
+```json
+{
+  "customerName": "John Doe",
+  "customerPhone": "9999999999",
+  "customerEmail": "john@example.com",
+  "reservationDate": "2026-08-12",
+  "reservationTime": "7:30 PM",
+  "guestCount": 4,
+  "seatingPreference": "Indoor",
+  "specialRequest": "Birthday celebration"
+}
+```
+
+**Required Fields:**
+- `customerName` (String)
+- `customerPhone` (String)
+- `reservationDate` (Date/ISO8601 string, e.g., `"2026-08-12"`)
+- `reservationTime` (String)
+- `guestCount` (Integer)
+
+**Optional Fields:**
+- `customerEmail` (String, must be valid email format if provided)
+- `seatingPreference` (String)
+- `specialRequest` (String)
+
+**Response (Success - 201):**
+```json
+{
+  "success": true,
+  "bookingId": "...",
+  "emailSent": true,
+  "emailProviderUsed": "brevo"
+}
+```
+
 ### Integration Example (JavaScript/Fetch)
 ```javascript
 const bookAppointment = async (formData) => {
@@ -115,17 +159,40 @@ const bookAppointment = async (formData) => {
     console.error('Network error:', error);
   }
 };
+
+const bookTable = async (formData) => {
+  try {
+    const response = await fetch('https://api.pixora.com/api/table-bookings', {
+      method: 'POST',
+      headers: {
+        'Authorization': 'Bearer YOUR_CLINIC_API_KEY',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(formData)
+    });
+
+    const data = await response.json();
+    if (data.success) {
+      console.log('Table booked!', data.bookingId);
+    } else {
+      console.error('Booking failed:', data.errors || data.message);
+    }
+  } catch (error) {
+    console.error('Network error:', error);
+  }
+};
 ```
 
 ## Admin Operations (Postman)
 
-### Clinic Management
-- `POST /api/admin/clinics`: Create a new clinic.
-- `GET /api/admin/clinics`: List all clinics.
+### Clinic & Merchant Management
+- `POST /api/admin/clinics`: Create a new clinic/merchant.
+- `GET /api/admin/clinics`: List all clinics/merchants.
 - `PATCH /api/admin/clinics/:id/regenerate-key`: Issue a new API key.
-- `PATCH /api/admin/clinics/:id/disable`: Disable a clinic.
-- `PATCH /api/admin/clinics/:id/enable`: Enable a clinic.
+- `PATCH /api/admin/clinics/:id/disable`: Disable a clinic/merchant.
+- `PATCH /api/admin/clinics/:id/enable`: Enable a clinic/merchant.
 - `GET /api/admin/appointments`: View all appointments (supports filters: `clinicId`, `status`, `from`, `to`, `emailSent`).
+- `GET /api/admin/table-bookings`: View all table bookings (supports filters: `clinicId`, `status`, `from`, `to`, `emailSent`).
 
 ## Appointment Statuses
 | Status | Meaning |

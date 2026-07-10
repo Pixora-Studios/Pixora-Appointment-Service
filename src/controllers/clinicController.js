@@ -1,6 +1,6 @@
 const Clinic = require('../models/Clinic');
-const Appointment = require('../models/Appointment');
-const apiKeyService = require('../services/apiKeyService');
+const Appointment = require('../appointment/model/Appointment');
+const apiKeyService = require('../utils/apiKeyService');
 const { validationResult } = require('express-validator');
 
 exports.createClinic = async (req, res, next) => {
