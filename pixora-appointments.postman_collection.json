@@ -103,6 +103,169 @@
 								}
 							},
 							"response": []
+						}
+					]
+				},
+				{
+					"name": "Restaurants",
+					"item": [
+						{
+							"name": "Create Restaurant",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-admin-key",
+										"value": "{{admin_key}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"restaurantName\": \"Pixora Cafe - Midtown\",\n  \"contactName\": \"Chef Marcus Paul\",\n  \"restaurantEmail\": \"midtown-cafe@example.com\",\n  \"phone\": \"555-014-4829\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/admin/restaurants",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"admin",
+										"restaurants"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "List Restaurants",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-admin-key",
+										"value": "{{admin_key}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/admin/restaurants",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"admin",
+										"restaurants"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Regenerate Key",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "x-admin-key",
+										"value": "{{admin_key}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/admin/restaurants/:id/regenerate-key",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"admin",
+										"restaurants",
+										":id",
+										"regenerate-key"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Disable Restaurant",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "x-admin-key",
+										"value": "{{admin_key}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/admin/restaurants/:id/disable",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"admin",
+										"restaurants",
+										":id",
+										"disable"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Enable Restaurant",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "x-admin-key",
+										"value": "{{admin_key}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/admin/restaurants/:id/enable",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"admin",
+										"restaurants",
+										":id",
+										"enable"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": []
 						},
 						{
 							"name": "Disable Clinic",

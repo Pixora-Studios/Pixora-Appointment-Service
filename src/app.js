@@ -10,6 +10,7 @@ const errorHandler = require('./middleware/errorHandler');
 const clinicController = require('./controllers/clinicController');
 const providerController = require('./controllers/providerController');
 const tableBookingController = require('./table-booking/controller/tableBookingController');
+const restaurantController = require('./table-booking/controller/restaurantController');
 
 const appointmentRoutes = require('./appointment/routes/appointmentRoutes');
 const tableBookingRoutes = require('./table-booking/routes/tableBookingRoutes');
@@ -44,14 +45,23 @@ const adminRouter = express.Router();
 adminRouter.use(adminAuth);
 adminRouter.use(adminRateLimiter);
 
+// Clinics admin endpoints
 adminRouter.post('/clinics', clinicController.createClinic);
 adminRouter.get('/clinics', clinicController.getAllClinics);
 adminRouter.patch('/clinics/:id/regenerate-key', clinicController.regenerateKey);
 adminRouter.patch('/clinics/:id/disable', clinicController.disableClinic);
 adminRouter.patch('/clinics/:id/enable', clinicController.enableClinic);
 adminRouter.get('/appointments', clinicController.getAdminAppointments);
+
+// Restaurants admin endpoints
+adminRouter.post('/restaurants', restaurantController.createRestaurant);
+adminRouter.get('/restaurants', restaurantController.getAllRestaurants);
+adminRouter.patch('/restaurants/:id/regenerate-key', restaurantController.regenerateKey);
+adminRouter.patch('/restaurants/:id/disable', restaurantController.disableRestaurant);
+adminRouter.patch('/restaurants/:id/enable', restaurantController.enableRestaurant);
 adminRouter.get('/table-bookings', tableBookingController.getAdminTableBookings);
 
+// Providers admin endpoints
 adminRouter.get('/providers', providerController.getProviders);
 adminRouter.patch('/providers/:providerName/toggle', providerController.toggleProvider);
 adminRouter.patch('/providers/:providerName/priority', providerController.updatePriority);

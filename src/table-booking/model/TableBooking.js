@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const tableBookingSchema = new mongoose.Schema({
   clinicId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Clinic',
+    ref: 'Restaurant',
     required: true,
     index: true,
   },

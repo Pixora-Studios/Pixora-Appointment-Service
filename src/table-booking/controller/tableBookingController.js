@@ -41,7 +41,7 @@ exports.getAdminTableBookings = async (req, res, next) => {
       if (to) filter.createdAt.$lte = new Date(to);
     }
 
-    const bookings = await TableBooking.find(filter).populate('clinicId', 'clinicName');
+    const bookings = await TableBooking.find(filter).populate('clinicId', 'restaurantName');
     res.json({ success: true, tableBookings: bookings });
   } catch (error) {
     next(error);
