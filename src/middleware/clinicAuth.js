@@ -1,5 +1,6 @@
 const Clinic = require('../models/Clinic');
-const { hashKey } = require('../services/apiKeyService');
+const Restaurant = require('../table-booking/model/Restaurant');
+const { hashKey } = require('../utils/apiKeyService');
 
 const clinicAuth = async (req, res, next) => {
   const authHeader = req.headers.authorization;
@@ -7,7 +8,7 @@ const clinicAuth = async (req, res, next) => {
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
     return res.status(401).json({
       success: false,
-      message: 'Unauthorized: Invalid or missing Clinic API Key',
+      message: 'Unauthorized: Invalid or missing API Key',
     });
   }
 
@@ -15,18 +16,38 @@ const clinicAuth = async (req, res, next) => {
   const hashedKey = hashKey(apiKey);
 
   try {
+    // 1. Try Clinic look up
     const clinic = await Clinic.findOne({ keyHash: hashedKey, isActive: true });
-
-    if (!clinic) {
-      return res.status(401).json({
-        success: false,
-        message: 'Unauthorized: Invalid or inactive Clinic API Key',
-      });
+    if (clinic) {
+      req.clinic = clinic;
+      req.merchantType = 'clinic';
+      return next();
     }
 
-    // Attach clinic to request for use in controllers
-    req.clinic = clinic;
-    next();
+    // 2. Try Restaurant look up
+    const restaurant = await Restaurant.findOne({ keyHash: hashedKey, isActive: true });
+    if (restaurant) {
+      // Create a compatible clinic alias so existing appointment booking / emails work seamlessly
+      const aliasClinic = {
+        _id: restaurant._id,
+        clinicName: restaurant.restaurantName,
+        doctorName: restaurant.contactName,
+        clinicEmail: restaurant.restaurantEmail,
+        phone: restaurant.phone,
+        isActive: restaurant.isActive,
+        createdAt: restaurant.createdAt,
+      };
+
+      req.clinic = aliasClinic;
+      req.restaurant = restaurant;
+      req.merchantType = 'restaurant';
+      return next();
+    }
+
+    return res.status(401).json({
+      success: false,
+      message: 'Unauthorized: Invalid or inactive API Key',
+    });
   } catch (error) {
     return res.status(500).json({
       success: false,

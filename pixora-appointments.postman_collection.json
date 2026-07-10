@@ -103,6 +103,169 @@
 								}
 							},
 							"response": []
+						}
+					]
+				},
+				{
+					"name": "Restaurants",
+					"item": [
+						{
+							"name": "Create Restaurant",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-admin-key",
+										"value": "{{admin_key}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"restaurantName\": \"Pixora Cafe - Midtown\",\n  \"contactName\": \"Chef Marcus Paul\",\n  \"restaurantEmail\": \"midtown-cafe@example.com\",\n  \"phone\": \"555-014-4829\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/admin/restaurants",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"admin",
+										"restaurants"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "List Restaurants",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-admin-key",
+										"value": "{{admin_key}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/admin/restaurants",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"admin",
+										"restaurants"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Regenerate Key",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "x-admin-key",
+										"value": "{{admin_key}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/admin/restaurants/:id/regenerate-key",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"admin",
+										"restaurants",
+										":id",
+										"regenerate-key"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Disable Restaurant",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "x-admin-key",
+										"value": "{{admin_key}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/admin/restaurants/:id/disable",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"admin",
+										"restaurants",
+										":id",
+										"disable"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Enable Restaurant",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "x-admin-key",
+										"value": "{{admin_key}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/admin/restaurants/:id/enable",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"admin",
+										"restaurants",
+										":id",
+										"enable"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": []
 						},
 						{
 							"name": "Disable Clinic",
@@ -388,12 +551,113 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "List Table Bookings",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-admin-key",
+								"value": "{{admin_key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/admin/table-bookings?status=pending&emailSent=true",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"table-bookings"
+							],
+							"query": [
+								{
+									"key": "status",
+									"value": "pending"
+								},
+								{
+									"key": "emailSent",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
 		{
 			"name": "Clinic",
 			"item": [
+				{
+					"name": "Book Table (Success)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{clinic_api_key}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"customerName\": \"John Doe\",\n  \"customerPhone\": \"9999999999\",\n  \"customerEmail\": \"john@example.com\",\n  \"reservationDate\": \"2026-08-12\",\n  \"reservationTime\": \"7:30 PM\",\n  \"guestCount\": 4,\n  \"seatingPreference\": \"Indoor\",\n  \"specialRequest\": \"Birthday celebration\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/table-bookings",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"table-bookings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Book Table (Validation Error)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{clinic_api_key}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"customerName\": \"\",\n  \"customerPhone\": \"9999999999\",\n  \"reservationDate\": \"invalid-date\",\n  \"reservationTime\": \"7:30 PM\",\n  \"guestCount\": 0\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/table-bookings",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"table-bookings"
+							]
+						}
+					},
+					"response": []
+				},
 				{
 					"name": "Book Appointment (Success)",
 					"request": {
